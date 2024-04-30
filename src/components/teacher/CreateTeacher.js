@@ -2,45 +2,52 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-  
-const CreateStudent = () => {
+
+const CreateTeacher = () => {
   let [name, setName] = useState("");
   let [age, setAge] = useState("");
   let [isMarried, setIsMarried] = useState(false);
+  let [subject, setSubject] = useState("");
+
+const handleSubmit = async (e) => {
+  e.preventDefault(); //e.preventDefault is done to prevent default property (refresh)
+  let data = {
+    name: name,
+    age: age,
+    isMarried: isMarried,
+    subject: subject,
+  };
+  //   console.log(data);
+  //hit api using axios
+  try {
+    let result = await axios({
+      url: "http://localhost:8000/students",
+      method: "post",
+      data: data,
+    });
+    setAge("");
+    setName("");
+    setIsMarried(false);
+    setSubject("");
+    toast.success(result.data.message);
+  } catch (error) {
+    if (error.response.data.message) {
+      toast.error(error.response.data.message);
+    } else {
+      toast.error(error.message);
+    }
+  }
+};
+
+
+
+
+
   return (
     <>
       <div>
         <ToastContainer />
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault(); //e.preventDefault is done to prevent default property (refresh)
-            let data = {
-              name: name,
-              age: age,
-              isMarried: isMarried,
-            };
-            //   console.log(data);
-            //hit api using axios
-            try {
-              let result = await axios({
-                url: "http://localhost:8000/students",
-                method: "post",
-                data: data,
-              });
-              setAge("");
-              setName("");
-              setIsMarried(false);
-              toast.success(result.data.message);
-            } catch (error) {
-              if(error.response.data.message){
-                toast.error(error.response.data.message);
-              }else{
-                toast.error(error.message)
-              }
-                 
-            }
-          }}
-        >
+        <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="name">Name:</label>
             <input
@@ -77,6 +84,18 @@ const CreateStudent = () => {
             />
           </div>
           <br />
+          <div>
+            <label htmlFor="subject">Subject</label>
+            <input
+              type="text"
+              id="subject"
+              value={subject}
+              onChange={(e) => {
+                setSubject(e.target.value);
+              }}
+            />
+          </div>
+          <br />
 
           <button type="submit">Submit</button>
         </form>
@@ -85,4 +104,4 @@ const CreateStudent = () => {
   );
 };
 
-export default CreateStudent;
+export default CreateTeacher;
