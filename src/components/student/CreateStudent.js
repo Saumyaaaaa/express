@@ -1,26 +1,33 @@
-import React, { useState } from 'react'
-import axios from "axios"
+import React, { useState } from "react";
+import axios from "axios";
 const CreateStudent = () => {
-    let[name,setName]=useState("")
-    let[age,setAge]=useState("")
-    let[isMarried,setIsMarried]=useState(false)
+  let [name, setName] = useState("");
+  let [age, setAge] = useState("");
+  let [isMarried, setIsMarried] = useState(false);
   return (
     <>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
+        onSubmit={async (e) => {
+          e.preventDefault(); //e.preventDefault is done to prevent default property (refresh)
           let data = {
             name: name,
             age: age,
             isMarried: isMarried,
           };
-        //   console.log(data);
-        //hit api using axios
-        let result=axios({
-            url:"http://localhost:8000/students",
-            method:"post",
-            data:data
-        })
+          //   console.log(data);
+          //hit api using axios
+          try {
+            let result = await axios({
+              url: "http://localhost:8000/students",
+              method: "post",
+              data: data,
+            });
+            setAge("");
+            setName("");
+            setIsMarried(false);
+          } catch (error) {
+            console.log(error.message);
+          }
         }}
       >
         <div>
@@ -65,6 +72,6 @@ const CreateStudent = () => {
       </form>
     </>
   );
-}
+};
 
-export default CreateStudent
+export default CreateStudent;
