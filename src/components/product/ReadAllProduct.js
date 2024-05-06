@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const ReadAllStudent = () => {
-  let [students, setStudents] = useState([]);
+const ReadAllProduct = () => {
+  let [products, setProducts] = useState([]);
 
   let navigate = useNavigate();
   /* 
@@ -18,10 +18,10 @@ display data
   let getData = async () => {
     try {
       let result = await axios({
-        url: "http://localhost:8000/students",
+        url: "http://localhost:8000/products",
         method: "get",
       });
-      setStudents(result.data.result);
+      setProducts(result.data.result);
     } catch (error) {}
   };
   useEffect(() => {
@@ -30,10 +30,12 @@ display data
   // Function to delete a student
   const handleDelete = async (studentId) => {
     try {
-      let result=await axios.delete(`http://localhost:8000/students/${studentId}`);
+      let result = await axios.delete(
+        `http://localhost:8000/products/${studentId}`
+      );
       // After deletion, fetch updated data
       getData();
-      toast.success(result.data.message)
+      toast.success(result.data.message);
     } catch (error) {
       console.error("Error deleting student:", error);
     }
@@ -41,25 +43,27 @@ display data
   return (
     <div>
       <ToastContainer />
-      {students.map((item, i) => {
+      {products.map((item, i) => {
         return (
           <div
             key={i}
             style={{ border: "solid red 2px", marginBottom: "20px" }}
           >
             <p>Name :{item.name}</p>
-            <p>age is :{item.age}</p>
-            <p>isMarried is :{item.isMarried === true ? "Yes" : "No"}</p>
+            <p>Price is :{item.price}</p>
+            <p>Quantity is :{item.quantity}</p>
+            <p>Image  :{item.image}</p>
+            
             <button
               onClick={() => {
-                navigate(`/student/${item._id}`);
+                navigate(`/product/${item._id}`);
               }}
             >
               View
             </button>
             <button
               onClick={() => {
-                navigate(`/student/update/${item._id}`);
+                navigate(`/product/update/${item._id}`);
               }}
             >
               Edit
@@ -72,4 +76,4 @@ display data
   );
 };
 
-export default ReadAllStudent;
+export default ReadAllProduct;

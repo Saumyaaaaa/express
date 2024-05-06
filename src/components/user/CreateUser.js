@@ -3,32 +3,27 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreateTeacher = () => {
+const CreateUser = () => {
   let [name, setName] = useState("");
-  let [age, setAge] = useState("");
-  let [isMarried, setIsMarried] = useState(false);
-  let [subject, setSubject] = useState("");
+  let [address, setAddress] = useState("");
 
-  const handleSubmit = async (e) => {
+  let handleSubmit = async (e) => {
     e.preventDefault(); //e.preventDefault is done to prevent default property (refresh)
     let data = {
       name: name,
-      age: age,
-      isMarried: isMarried,
-      subject: subject,
+      address: address,
     };
     //   console.log(data);
     //hit api using axios
     try {
       let result = await axios({
-        url: "http://localhost:8000/teachers",
+        url: "http://localhost:8000/users",
         method: "post",
         data: data,
       });
-      setAge("");
+
       setName("");
-      setIsMarried(false);
-      setSubject("");
+      setAddress("");
       toast.success(result.data.message);
     } catch (error) {
       if (error.response.data.message) {
@@ -59,36 +54,12 @@ const CreateTeacher = () => {
           <br />
 
           <div>
-            <label htmlFor="age">Age</label>
-            <input
-              type="number"
-              id="age"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-            />
-          </div>
-          <br />
-          <div>
-            <label htmlFor="isMarried">IsMarried?</label>
-            <input
-              type="checkbox"
-              id="isMarried"
-              checked={isMarried === true}
-              onChange={(e) => {
-                setIsMarried(e.target.checked);
-              }}
-            />
-          </div>
-          <br />
-          <div>
-            <label htmlFor="subject">Subject</label>
+            <label htmlFor="address">Address</label>
             <input
               type="text"
-              id="subject"
-              value={subject}
-              onChange={(e) => {
-                setSubject(e.target.value);
-              }}
+              id="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
             />
           </div>
           <br />
@@ -100,4 +71,4 @@ const CreateTeacher = () => {
   );
 };
 
-export default CreateTeacher;
+export default CreateUser;

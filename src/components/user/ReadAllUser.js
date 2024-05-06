@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const ReadAllStudent = () => {
-  let [students, setStudents] = useState([]);
+const ReadAllUser = () => {
+  let [users, setUsers] = useState([]);
 
   let navigate = useNavigate();
   /* 
@@ -18,48 +18,50 @@ display data
   let getData = async () => {
     try {
       let result = await axios({
-        url: "http://localhost:8000/students",
+        url: "http://localhost:8000/users",
         method: "get",
       });
-      setStudents(result.data.result);
+      setUsers(result.data.result);
     } catch (error) {}
   };
   useEffect(() => {
     getData();
   }, []);
-  // Function to delete a student
-  const handleDelete = async (studentId) => {
+  // Function to delete a user
+  const handleDelete = async (userId) => {
     try {
-      let result=await axios.delete(`http://localhost:8000/students/${studentId}`);
+      let result = await axios.delete(
+        `http://localhost:8000/users/${userId}`
+      );
       // After deletion, fetch updated data
       getData();
-      toast.success(result.data.message)
+      toast.success(result.data.message);
     } catch (error) {
-      console.error("Error deleting student:", error);
+      console.error("Error deleting user:", error);
     }
   };
   return (
     <div>
       <ToastContainer />
-      {students.map((item, i) => {
+      {users.map((item, i) => {
         return (
           <div
             key={i}
             style={{ border: "solid red 2px", marginBottom: "20px" }}
           >
             <p>Name :{item.name}</p>
-            <p>age is :{item.age}</p>
-            <p>isMarried is :{item.isMarried === true ? "Yes" : "No"}</p>
+            <p>address is :{item.address}</p>
+            
             <button
               onClick={() => {
-                navigate(`/student/${item._id}`);
+                navigate(`/user/${item._id}`);
               }}
             >
               View
             </button>
             <button
               onClick={() => {
-                navigate(`/student/update/${item._id}`);
+                navigate(`/user/update/${item._id}`);
               }}
             >
               Edit
@@ -72,4 +74,4 @@ display data
   );
 };
 
-export default ReadAllStudent;
+export default ReadAllUser;

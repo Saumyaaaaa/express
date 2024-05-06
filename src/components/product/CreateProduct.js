@@ -3,32 +3,32 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreateTeacher = () => {
+const CreateProduct = () => {
   let [name, setName] = useState("");
-  let [age, setAge] = useState("");
-  let [isMarried, setIsMarried] = useState(false);
-  let [subject, setSubject] = useState("");
+  let [price, setPrice] = useState("");
+  let [image,setImage]=useState("")
+  let [quantity,setQuantity]=useState("")
 
-  const handleSubmit = async (e) => {
+  let handleSubmit = async (e) => {
     e.preventDefault(); //e.preventDefault is done to prevent default property (refresh)
     let data = {
       name: name,
-      age: age,
-      isMarried: isMarried,
-      subject: subject,
+      price: price,
+      image:image,
+      quantity:quantity
     };
-    //   console.log(data);
-    //hit api using axios
+ 
     try {
       let result = await axios({
-        url: "http://localhost:8000/teachers",
+        url: "http://localhost:8000/products",
         method: "post",
         data: data,
       });
-      setAge("");
+      setPrice("");
       setName("");
-      setIsMarried(false);
-      setSubject("");
+      setImage("")
+      setQuantity("")
+     
       toast.success(result.data.message);
     } catch (error) {
       if (error.response.data.message) {
@@ -53,45 +53,45 @@ const CreateTeacher = () => {
               onChange={(e) => {
                 setName(e.target.value);
               }}
-              placeholder=" your name"
+              placeholder=" Product name"
+            />
+          </div>
+          <br />
+          <div>
+            <label htmlFor="image">Image:</label>
+            <input
+              type="text"
+              id="image"
+              value={image}
+              onChange={(e) => {
+                setImage(e.target.value);
+              }}
+             
             />
           </div>
           <br />
 
           <div>
-            <label htmlFor="age">Age</label>
+            <label htmlFor="price">Price</label>
             <input
               type="number"
-              id="age"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
+              id="price"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
           </div>
           <br />
           <div>
-            <label htmlFor="isMarried">IsMarried?</label>
+            <label htmlFor="quantity">Quantity</label>
             <input
-              type="checkbox"
-              id="isMarried"
-              checked={isMarried === true}
-              onChange={(e) => {
-                setIsMarried(e.target.checked);
-              }}
+              type="number"
+              id="quantity"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
             />
           </div>
           <br />
-          <div>
-            <label htmlFor="subject">Subject</label>
-            <input
-              type="text"
-              id="subject"
-              value={subject}
-              onChange={(e) => {
-                setSubject(e.target.value);
-              }}
-            />
-          </div>
-          <br />
+       
 
           <button type="submit">Submit</button>
         </form>
@@ -100,4 +100,4 @@ const CreateTeacher = () => {
   );
 };
 
-export default CreateTeacher;
+export default CreateProduct;

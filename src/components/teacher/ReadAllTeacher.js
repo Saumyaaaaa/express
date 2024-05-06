@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const ReadAllStudent = () => {
-  let [students, setStudents] = useState([]);
+const ReadAllTeacher = () => {
+  let [teachers, setTeachers] = useState([]);
 
   let navigate = useNavigate();
   /* 
@@ -18,30 +18,32 @@ display data
   let getData = async () => {
     try {
       let result = await axios({
-        url: "http://localhost:8000/students",
+        url: "http://localhost:8000/teachers",
         method: "get",
       });
-      setStudents(result.data.result);
+      setTeachers(result.data.result);
     } catch (error) {}
   };
   useEffect(() => {
     getData();
   }, []);
-  // Function to delete a student
-  const handleDelete = async (studentId) => {
+  // Function to delete a teacher
+  const handleDelete = async (teacherId) => {
     try {
-      let result=await axios.delete(`http://localhost:8000/students/${studentId}`);
+      let result = await axios.delete(
+        `http://localhost:8000/teachers/${teacherId}`
+      );
       // After deletion, fetch updated data
       getData();
-      toast.success(result.data.message)
+      toast.success(result.data.message);
     } catch (error) {
-      console.error("Error deleting student:", error);
+      console.error("Error deleting teacher:", error);
     }
   };
   return (
     <div>
       <ToastContainer />
-      {students.map((item, i) => {
+      {teachers.map((item, i) => {
         return (
           <div
             key={i}
@@ -52,14 +54,14 @@ display data
             <p>isMarried is :{item.isMarried === true ? "Yes" : "No"}</p>
             <button
               onClick={() => {
-                navigate(`/student/${item._id}`);
+                navigate(`/teacher/${item._id}`);
               }}
             >
               View
             </button>
             <button
               onClick={() => {
-                navigate(`/student/update/${item._id}`);
+                navigate(`/teacher/update/${item._id}`);
               }}
             >
               Edit
@@ -72,4 +74,4 @@ display data
   );
 };
 
-export default ReadAllStudent;
+export default ReadAllTeacher;

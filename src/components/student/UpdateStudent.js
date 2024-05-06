@@ -1,13 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateStudent = () => {
-  let [name, setName] = useState("");
-  let [age, setAge] = useState("");
+const UpdateStudent = () => {
+    let navigate =useNavigate()
+    let params=useParams()
+    let id=params.id
+  let [name, setName] = useState("")
+  let [age, setAge] = useState("")
   let [isMarried, setIsMarried] = useState(false);
-
+      const getData = async () => {
+        try {
+          let result = await axios({
+            url: `http://localhost:8000/students/${id}`,
+            method: "get",
+          })
+          let data=result.data.result; //{name:"",age:"",isMarried:"",_id:""}
+          setName(data.name);
+          setAge(data.age)
+          setIsMarried(data.isMarried)
+        } catch (error) {
+            toast.error(error.message)
+        }
+      }
+      useEffect(() => {
+        getData();
+      }, []);
 let handleSubmit=async (e) => {
             e.preventDefault(); //e.preventDefault is done to prevent default property (refresh)
             let data = {
@@ -19,13 +39,14 @@ let handleSubmit=async (e) => {
             //hit api using axios
             try {
               let result = await axios({
-                url: "http://localhost:8000/students",
-                method: "post",
+                url:    `http://localhost:8000/students/${id}`,
+                method: "patch",
                 data: data,
               });
-              setAge("");
-              setName("");
-              setIsMarried(false);
+            //   setAge("");
+            //   setName("");
+            //   setIsMarried(false);
+            navigate(`/student/${id}`);
               toast.success(result.data.message);
             } catch (error) {
               if (error.response.data.message) {
@@ -35,8 +56,6 @@ let handleSubmit=async (e) => {
               }
             }
           }
-
-
   return (
     <>
       <div>
@@ -57,7 +76,6 @@ let handleSubmit=async (e) => {
             />
           </div>
           <br />
-
           <div>
             <label htmlFor="age">Age</label>
             <input
@@ -80,12 +98,11 @@ let handleSubmit=async (e) => {
             />
           </div>
           <br />
-
-          <button type="submit">Submit</button>
+          <button type="submit">Update</button>
         </form>
       </div>
     </>
-  );
-};
+  )
+}
+export default UpdateStudent;
 
-export default CreateStudent;

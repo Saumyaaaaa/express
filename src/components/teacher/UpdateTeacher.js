@@ -1,15 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateTeacher = () => {
+const UpdateTeacher = () => {
+  let navigate = useNavigate();
+  let params = useParams();
+  let id = params.id;
   let [name, setName] = useState("");
   let [age, setAge] = useState("");
   let [isMarried, setIsMarried] = useState(false);
   let [subject, setSubject] = useState("");
 
-  const handleSubmit = async (e) => {
+  const getData = async () => {
+    try {
+      let result = await axios({
+        url: `http://localhost:8000/teachers/${id}`,
+        method: "get",
+      });
+      let data = result.data.result; //{name:"",age:"",isMarried:"",_id:""}
+      setName(data.name);
+      setAge(data.age);
+      setIsMarried(data.isMarried);
+      setSubject(data.subject);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  let handleSubmit = async (e) => {
     e.preventDefault(); //e.preventDefault is done to prevent default property (refresh)
     let data = {
       name: name,
@@ -21,14 +45,14 @@ const CreateTeacher = () => {
     //hit api using axios
     try {
       let result = await axios({
-        url: "http://localhost:8000/teachers",
-        method: "post",
+        url: `http://localhost:8000/teachers/${id}`,
+        method: "patch",
         data: data,
       });
-      setAge("");
-      setName("");
-      setIsMarried(false);
-      setSubject("");
+      //   setAge("");
+      //   setName("");
+      //   setIsMarried(false);
+      navigate(`/teacher/${id}`);
       toast.success(result.data.message);
     } catch (error) {
       if (error.response.data.message) {
@@ -85,7 +109,7 @@ const CreateTeacher = () => {
             <input
               type="text"
               id="subject"
-              value={subject}
+              value="Subject"
               onChange={(e) => {
                 setSubject(e.target.value);
               }}
@@ -93,11 +117,11 @@ const CreateTeacher = () => {
           </div>
           <br />
 
-          <button type="submit">Submit</button>
+          <button type="submit">Update</button>
         </form>
       </div>
     </>
   );
 };
 
-export default CreateTeacher;
+export default UpdateTeacher;
