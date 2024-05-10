@@ -16,6 +16,12 @@ import CreateUser from "../user/CreateUser";
 import ReadAllUser from "../user/ReadAllUser";
 import ReadSpecificUser from "../user/ReadSpecificUser";
 import UpdateUser from "../user/UpdateUser";
+import CreateReview from "../review/CreateReview";
+import CreateBook from "../book/CreateBook";
+import ReadAllBook from "../book/ReadAllBook";
+import ReadSpecificBook from "../book/ReadSpecificBook";
+import UpdateBook from "../book/UpdateBook";
+import ReadAllReview from "../review/ReadAllReview";
 // import FormikForm from "../LearnFormik/FormikForm";
 
 const MyRoutes = () => {
@@ -39,6 +45,17 @@ const MyRoutes = () => {
           <Route path="/user" element={<ReadAllUser />} />
           <Route path="/user/:id" element={<ReadSpecificUser />} />
           <Route path="/user/update/:id" element={<UpdateUser />} />
+          <Route path="/review/create" element={<CreateReview />} />
+          <Route path="/review/" element={<ReadAllReview />} />
+
+          <Route path="/book/create" element={<CreateBook />} />
+          <Route path="/book/" element={<ReadAllBook />} />
+          <Route path="/book/:id" element={<ReadSpecificBook />} />
+          <Route path="/book/update/:id" element={<UpdateBook />} />
+
+          {/* <Route path="/review" element={<ReadAllReview />} /> */}
+          {/* <Route path="/review/:id" element={<ReadSpecificReview />} /> */}
+          {/* <Route path="/review/update/:id" element={<UpdateReview />} /> */}
 
           {/* <Route path="/" element={<FormikForm />} /> */}
         </Routes>

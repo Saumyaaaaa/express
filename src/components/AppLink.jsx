@@ -29,6 +29,18 @@ const AppLink = () => {
         <NavLink to="/user" style={{ marginRight: "30px" }}>
           View user
         </NavLink>
+        <NavLink to="/review/create" style={{ marginRight: "30px" }}>
+          Create review
+        </NavLink>
+        <NavLink to="/review" style={{ marginRight: "30px" }}>
+          View review
+        </NavLink>
+        <NavLink to="/book/create" style={{ marginRight: "30px" }}>
+          Create Book
+        </NavLink>
+        <NavLink to="/book" style={{ marginRight: "30px" }}>
+          View book
+        </NavLink>
       </div>
     </>
   );
