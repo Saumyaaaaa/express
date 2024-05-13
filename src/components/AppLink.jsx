@@ -41,6 +41,19 @@ const AppLink = () => {
         <NavLink to="/book" style={{ marginRight: "30px" }}>
           View book
         </NavLink>
+        <NavLink to="/admin/register" style={{ marginRight: "30px" }}>
+          Admin Register
+        </NavLink>
+        <NavLink to="/admin/login" style={{ marginRight: "30px" }}>
+          Admin Login
+        </NavLink>
+        <NavLink to="/admin/my-profile" style={{ marginRight: "30px" }}>
+          My Profile
+        </NavLink>
+        <NavLink to="/admin/logout" style={{ marginRight: "30px" }}>
+          Logout
+        </NavLink>
+      
       </div>
     </>
   );

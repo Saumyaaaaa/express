@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import CreateStudent from "../student/CreateStudent";
 import CreateTeacher from "../teacher/CreateTeacher";
 import ReadAllStudent from "../student/ReadAllStudent";
@@ -22,6 +22,12 @@ import ReadAllBook from "../book/ReadAllBook";
 import ReadSpecificBook from "../book/ReadSpecificBook";
 import UpdateBook from "../book/UpdateBook";
 import ReadAllReview from "../review/ReadAllReview";
+import AdminRegister from "../WebUsers/AdminRegister";
+import AdminVerify from "../WebUsers/AdminVerify";
+import AdminLogin from "../WebUsers/AdminLogin";
+import AdminProfile from "../WebUsers/AdminProfile";
+import AdminLogout from "../WebUsers/AdminLogout";
+import AdminProfileUpdate from "../WebUsers/AdminProfileUpdate";
 // import FormikForm from "../LearnFormik/FormikForm";
 
 const MyRoutes = () => {
@@ -52,6 +58,22 @@ const MyRoutes = () => {
           <Route path="/book/" element={<ReadAllBook />} />
           <Route path="/book/:id" element={<ReadSpecificBook />} />
           <Route path="/book/update/:id" element={<UpdateBook />} />
+          <Route
+            path="admin"
+            element={
+              <div>
+                <Outlet></Outlet>
+              </div>
+            }
+          >
+            <Route path="profile-update" element={<AdminProfileUpdate/>}></Route>
+            <Route path="logout" element={<AdminLogout/>}></Route>
+            <Route path="my-profile" element={<AdminProfile />}></Route>
+            <Route index element={<div>this is admin dashboard</div>}></Route>
+            <Route path="register" element={<AdminRegister />}></Route>
+            <Route path="login" element={<AdminLogin />}></Route>
+          </Route>
+          <Route path="verify-email" element={<AdminVerify />}></Route>
 
           {/* <Route path="/review" element={<ReadAllReview />} /> */}
           {/* <Route path="/review/:id" element={<ReadSpecificReview />} /> */}
